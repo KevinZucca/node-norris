@@ -7,6 +7,12 @@ const port = process.env.PORT || 8000;
 
 http
   .createServer((req, res) => {
+    if (req.url === "/favicon.ico") {
+      res.statusCode = 204;
+      res.end();
+      return;
+    }
+
     callApi((data) => {
       const joke = data;
 
@@ -15,7 +21,6 @@ http
       if (!Array.isArray(jokesList)) {
         jokesList = [];
       }
-
       jokesList.push(joke);
 
       const convertedJokeList = JSON.stringify(jokesList);
