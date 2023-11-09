@@ -30,11 +30,12 @@ http
       }
 
       const html = [];
-      html.push("<ul>");
+      html.push("<h1>Chuck Norris Jokes</h1>");
+      html.push("<ol>");
       checkedJokeList.forEach((joke) => {
         html.push(`<li>${joke.value}</li>`);
       });
-      html.push("</ul>");
+      html.push("</ol>");
 
       res
         .setHeader("Content-Type", "text/html; charset=utf-8")
