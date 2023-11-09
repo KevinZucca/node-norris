@@ -3,6 +3,7 @@ const dotenv = require("dotenv").config();
 const fs = require("fs");
 const callApi = require("./utilities/apiCall");
 const { readJokes, jokesPath } = require("./utilities/readJokes");
+const checkDoubles = require("./utilities/checkDoubles");
 const port = process.env.PORT || 8000;
 
 http
@@ -15,15 +16,12 @@ http
 
     callApi((data) => {
       const joke = data;
-
       let jokesList = readJokes();
+      const checkedJokeList = checkDoubles(jokesList, joke);
 
-      if (!Array.isArray(jokesList)) {
-        jokesList = [];
-      }
-      jokesList.push(joke);
+      //   jokesList.push(joke);
 
-      const convertedJokeList = JSON.stringify(jokesList);
+      const convertedJokeList = JSON.stringify(checkedJokeList);
 
       try {
         fs.writeFileSync(jokesPath, convertedJokeList, null, 2);
@@ -33,7 +31,7 @@ http
 
       const html = [];
       html.push("<ul>");
-      jokesList.forEach((joke) => {
+      checkedJokeList.forEach((joke) => {
         html.push(`<li>${joke.value}</li>`);
       });
       html.push("</ul>");
